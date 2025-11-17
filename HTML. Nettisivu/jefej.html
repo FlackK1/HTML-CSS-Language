@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Tarkistus</title>
+  <style>
+  
+    /* Modaali-ikkunan tyylit */
+    #emailModal {
+      display: none; /* Piilotettu oletuksena */
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      background-color: #fff;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #emailModal p {
+      margin: 0 0 20px;
+      font-size: 16px;
+    }
+
+    #emailModal button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #emailModal button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Tausta hämärrys */
+    #modalOverlay {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+  <script>
+    function tarkistaEmail() {
+      var x = document.forms["omaEmail"]["email"].value;
+
+      if (x == "") {
+        // Näytetään modaali
+        document.getElementById("emailModal").style.display = "block";
+        document.getElementById("modalOverlay").style.display = "block";
+        return false; // Estetään lomakkeen lähetys
+      }
+    }
+
+    // Piilota modaali-ikkuna
+    function suljeModal() {
+      document.getElementById("emailModal").style.display = "none";
+      document.getElementById("modalOverlay").style.display = "none";
+    }
+  </script>
+</head>
+<body>
+  <!-- Lomake -->
+  <form name="omaEmail" action="/lomakefunktio.php" onsubmit="return tarkistaEmail()" method="post">
+    eMail: <input type="text" name="email">
+    <input type="submit" value="Lähetä">
+  </form>
+
+  <!-- Modaali-ikkuna -->
+  <div id="modalOverlay"></div>
+  <div id="emailModal">
+    <p>Oma email puuttuu. Ole hyvä, anna email.</p>
+    <button onclick="suljeModal()">OK</button>
+  </div>
+</body>
+</html>
